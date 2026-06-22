@@ -2,9 +2,9 @@
 
     import com.beans.entity.EmployeeEntity;
     import com.beans.repository.EmployeeRepository;
+    import com.beans.services.EmployeeService;
     import org.springframework.web.bind.annotation.*;
     import com.beans.dto.EmployeeDTO;
-
     import java.time.LocalDate;
     import java.util.List;
 
@@ -12,29 +12,30 @@
     @RequestMapping("/employee")
     public class EmployeeController {
 
-        private final EmployeeRepository employeeRepository;
-        public EmployeeController(EmployeeRepository employeeRepository){
-            this.employeeRepository = employeeRepository;
+        private final EmployeeService employeeService;
+        public EmployeeController(EmployeeService employeeService){
+            this.employeeService = employeeService;
         }
+
         @GetMapping("/{employeeId}")
         public EmployeeDTO getEmployeeById(@PathVariable(name="employeeId") Long id){
-            EmployeeDTO employeeDTO = new EmployeeDTO(id,"Kiran","kkaur", 25,"IT", LocalDate.of(2026,9,12),true);
-            return employeeDTO;
+           return employeeService.getEmployeeById(id);
         }
 
-//        @GetMapping()
-//        public String getEmployeeParams(@RequestParam String sortBy, @RequestParam(name="inputAge") Integer age){
-//            return "Employee param is : " + sortBy + " age is : " + age;
-//        }
-
         @PostMapping()
-        public EmployeeEntity addEmployee(@RequestBody EmployeeEntity inputEmployee){
-                return employeeRepository.save(inputEmployee);
+        public EmployeeDTO addEmployee(@RequestBody EmployeeDTO inputEmployee){
+            return employeeService.addEmployee(inputEmployee);
             }
 
         @GetMapping()
-        public List<EmployeeEntity> getAllEmployees(){
-            return employeeRepository.findAll();
+        public List<EmployeeDTO> getAllEmployees(){
+            return employeeService.getAllEmployees();
         }
+
+
+        //        @GetMapping()
+//        public String getEmployeeParams(@RequestParam String sortBy, @RequestParam(name="inputAge") Integer age){
+//            return "Employee param is : " + sortBy + " age is : " + age;
+//        }
         }
 

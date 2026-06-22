@@ -1,6 +1,10 @@
 package com.beans.dto;
-import java.time.LocalDate;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
+@Setter
+@NoArgsConstructor
 public class EmployeeDTO {
     Long id;
     private String name;
@@ -9,10 +13,6 @@ public class EmployeeDTO {
     private String department;
     private LocalDate joiningDate;
     boolean isActive;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public EmployeeDTO(Long id) {
         this.id = id;
