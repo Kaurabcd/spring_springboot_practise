@@ -3,9 +3,6 @@ import com.beans.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
-
 import java.time.LocalDate;
 @Data
 @NoArgsConstructor

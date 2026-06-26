@@ -2,6 +2,7 @@ package com.beans.services;
 
 import com.beans.dto.EmployeeDTO;
 import com.beans.entity.EmployeeEntity;
+import com.beans.exceptions.ResourceNotFoundException;
 import com.beans.repository.EmployeeRepository;
 import org.apache.el.util.ReflectionUtil;
 import org.modelmapper.ModelMapper;
@@ -47,6 +48,9 @@ public class EmployeeService {
     }
 
     public EmployeeDTO updateEmployeeById(Long id, EmployeeDTO employeeDTO){
+        if(!employeeRepository.existsById(id))
+            throw new ResourceNotFoundException("Employee not found with id"+id);
+
         EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
         employeeEntity.setId(id);
         EmployeeEntity savedEmployeeEntity = employeeRepository.save(employeeEntity);  //worked as hashmap if id already exist then update otherwise add new data

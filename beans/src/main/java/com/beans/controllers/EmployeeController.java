@@ -1,14 +1,17 @@
     package com.beans.controllers;
 
     import com.beans.entity.EmployeeEntity;
+    import com.beans.exceptions.ResourceNotFoundException;
     import com.beans.repository.EmployeeRepository;
     import com.beans.services.EmployeeService;
+    import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.*;
     import com.beans.dto.EmployeeDTO;
     import java.time.LocalDate;
     import java.util.List;
     import java.util.Map;
+    import java.util.NoSuchElementException;
     import java.util.Optional;
 
     @RestController
@@ -27,9 +30,19 @@
 //               return ResponseEntity.ok(employeeDTO.get());
 //           }
 //           return ResponseEntity.notFound().build();
-            return employeeDTO.map(emp->ResponseEntity.ok(emp)).orElse(ResponseEntity.notFound().build());
+//            return employeeDTO
+//                    .map(emp->ResponseEntity.ok(emp))
+//                    .orElseThrow(()->new NoSuchElementException("Not found"));
 
+            return employeeDTO
+                    .map(emp->ResponseEntity.ok(emp))
+                    .orElseThrow(()->new ResourceNotFoundException("EMployee not found with id"+ id));
         }
+
+//        @ExceptionHandler(NoSuchElementException.class)
+//        public ResponseEntity<String> resourceNotFound(){
+//            return new ResponseEntity<>("Employee not found",HttpStatus.NOT_FOUND);
+//        }
 
         @PostMapping()
         public ResponseEntity<EmployeeDTO> addEmployee(@RequestBody EmployeeDTO inputEmployee){
